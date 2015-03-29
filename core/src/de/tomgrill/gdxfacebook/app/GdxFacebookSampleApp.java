@@ -50,8 +50,6 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	private String fbNickname;
 	private String fbID;
 
-	private ButtonActor getUserFriensPermission;
-
 	private long lastRequest;
 
 	Preferences prefs;
@@ -129,24 +127,6 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 		checkbox.setVisible(true);
 		stage.addActor(checkbox);
-
-		getUserFriensPermission = new ButtonActor(new TextureRegion(new Texture("button_request_friends.png")));
-		getUserFriensPermission.setX(640 / 2f - 360 / 2f);
-		getUserFriensPermission.setY(400);
-		getUserFriensPermission.setWidth(359);
-		getUserFriensPermission.setHeight(38);
-		getUserFriensPermission.addListener(new InputListener() {
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				return true;
-			}
-
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				handleGetUserFriendPermission();
-			}
-
-		});
-
-		stage.addActor(getUserFriensPermission);
 
 		autoSignin();
 	}
