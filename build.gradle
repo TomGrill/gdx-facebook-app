@@ -94,6 +94,9 @@ project(":ios") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
         
         compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"
+        
+        
+    	compile fileTree(dir: 'libs', include: '*.jar')
     }
 }
 
