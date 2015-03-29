@@ -1,4 +1,4 @@
-package de.tpronold.gdxfacebook.app.actors;
+package de.tomgrill.gdxfacebook.app.actors;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;

@@ -45,7 +45,7 @@ project(":desktop") {
         
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         
-        compile "de.tpronold.gdxfacebook:gdx-facebook-desktop:$gdxFacebookVersion"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-desktop:$gdxFacebookVersion"
     }
 }
 
@@ -68,11 +68,11 @@ project(":android") {
         
         compile 'com.android.support:appcompat-v7:21.0.+'
         
-        compile ("com.facebook.android:facebook-android-sdk:3.23.+") {
+        compile ("com.facebook.android:facebook-android-sdk:3.23.1") {
 			exclude module: 'support-v4'
 		}
         
-        compile "de.tpronold.gdxfacebook:gdx-facebook-android:$gdxFacebookVersion"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-android:$gdxFacebookVersion"
         
 //        compile fileTree(dir: 'libs', include: '*.jar')
     }
@@ -93,7 +93,7 @@ project(":ios") {
         
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
         
-        compile "de.tpronold.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"
     }
 }
 
@@ -108,7 +108,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
         
-        compile "de.tpronold.gdxfacebook:gdx-facebook-html:$gdxFacebookVersion"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-html:$gdxFacebookVersion"
     }
 }
 
@@ -121,7 +121,7 @@ project(":core") {
         
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         
-        compile "de.tpronold.gdxfacebook:gdx-facebook-core:$gdxFacebookVersion"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-core:$gdxFacebookVersion"
     }
 }
 

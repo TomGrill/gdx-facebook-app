@@ -1,9 +1,10 @@
-package de.tpronold.gdxfacebook.app.client;
+package de.tomgrill.gdxfacebook.app.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import de.tpronold.gdxfacebook.app.GdxFacebookSampleApp;
+
+import de.tomgrill.gdxfacebook.app.GdxFacebookSampleApp;
 
 public class HtmlLauncher extends GwtApplication {
 

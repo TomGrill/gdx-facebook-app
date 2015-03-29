@@ -1,8 +1,9 @@
-package de.tpronold.gdxfacebook.app.desktop;
+package de.tomgrill.gdxfacebook.app.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import de.tpronold.gdxfacebook.app.GdxFacebookSampleApp;
+
+import de.tomgrill.gdxfacebook.app.GdxFacebookSampleApp;
 
 public class DesktopLauncher {
 	public static void main(String[] arg) {

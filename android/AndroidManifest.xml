@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.tpronold.gdxfacebook.app.android"
+    package="de.tomgrill.gdxfacebook.app.android"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/GdxTheme" >
         <activity
-            android:name="de.tpronold.gdxfacebook.app.android.AndroidLauncher"
+            android:name="de.tomgrill.gdxfacebook.app.android.AndroidLauncher"
             android:label="@string/app_name" 
             android:screenOrientation="sensorPortrait"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">

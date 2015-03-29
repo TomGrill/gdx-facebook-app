@@ -1,11 +1,11 @@
-package de.tpronold.gdxfacebook.app.android;
+package de.tomgrill.gdxfacebook.app.android;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
+import de.tomgrill.gdxfacebook.app.GdxFacebookSampleApp;
 import de.tpronold.gdxfacebook.android.GdxFacebookAndroidApplication;
-import de.tpronold.gdxfacebook.app.GdxFacebookSampleApp;
 
 public class AndroidLauncher extends GdxFacebookAndroidApplication {
 	@Override

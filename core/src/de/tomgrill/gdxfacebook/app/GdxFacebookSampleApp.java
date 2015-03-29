@@ -1,4 +1,4 @@
-package de.tpronold.gdxfacebook.app;
+package de.tomgrill.gdxfacebook.app;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -24,12 +24,13 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
-import de.tpronold.gdxfacebook.app.actors.BitmapFontActor;
-import de.tpronold.gdxfacebook.app.actors.ButtonActor;
-import de.tpronold.gdxfacebook.core.FacebookAPI;
-import de.tpronold.gdxfacebook.core.FacebookSystem;
-import de.tpronold.gdxfacebook.core.ResponseError;
-import de.tpronold.gdxfacebook.core.ResponseListener;
+import de.tomgrill.gdxfacebook.app.actors.BitmapFontActor;
+import de.tomgrill.gdxfacebook.app.actors.ButtonActor;
+import de.tomgrill.gdxfacebook.core.FacebookAPI;
+import de.tomgrill.gdxfacebook.core.FacebookConfig;
+import de.tomgrill.gdxfacebook.core.FacebookSystem;
+import de.tomgrill.gdxfacebook.core.ResponseError;
+import de.tomgrill.gdxfacebook.core.ResponseListener;
 
 public class GdxFacebookSampleApp extends ApplicationAdapter {
 
@@ -44,16 +45,18 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	private CheckBox checkbox;
 
-	private FacebookAPI fbAPI;
+	private FacebookAPI facebookAPI;
 
 	private String fbNickname;
 	private String fbID;
+
+	private ButtonActor getUserFriensPermission;
 
 	private long lastRequest;
 
 	Preferences prefs;
 
-	FreeTypeFontGenerator generator;
+	private FacebookConfig myConfig = new MyFacebookConfig();
 
 	@Override
 	public void create() {
@@ -65,8 +68,8 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		stage = new Stage(new ExtendViewport(640, 800, 640, 800));
 		Gdx.input.setInputProcessor(stage);
 
-		FacebookSystem fbsystem = new FacebookSystem(new MyFacebookConfig());
-		fbAPI = fbsystem.getFacebookAPI();
+		FacebookSystem facebookSystem = new FacebookSystem(myConfig);
+		facebookAPI = facebookSystem.getFacebookAPI();
 
 		/* facebook */
 
@@ -89,17 +92,17 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 		stage.addActor(facebookButton);
 
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("UbuntuMono-Regular.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("UbuntuMono-Regular.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 15;
 		parameter.color = Color.BLACK;
 		BitmapFont font = generator.generateFont(parameter);
-		// font.setColor(Color.BLACK);
+		generator.dispose();
 
 		facebookFont = new BitmapFontActor(font);
 		facebookFont.setX(140);
 		facebookFont.setY(560);
-		facebookFont.setText(NOT_LOGGED_IN);
+		facebookFont.setText("");
 		stage.addActor(facebookFont);
 
 		autoLogin = new BitmapFontActor(font);
@@ -127,12 +130,30 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		checkbox.setVisible(true);
 		stage.addActor(checkbox);
 
+		getUserFriensPermission = new ButtonActor(new TextureRegion(new Texture("button_request_friends.png")));
+		getUserFriensPermission.setX(640 / 2f - 360 / 2f);
+		getUserFriensPermission.setY(400);
+		getUserFriensPermission.setWidth(359);
+		getUserFriensPermission.setHeight(38);
+		getUserFriensPermission.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				handleGetUserFriendPermission();
+			}
+
+		});
+
+		stage.addActor(getUserFriensPermission);
+
 		autoSignin();
 	}
 
 	private void autoSignin() {
 		if (prefs.getBoolean("autosignin", false)) {
-			fbAPI.signin(false, new ResponseListener() {
+			facebookAPI.signin(false, new ResponseListener() {
 				@Override
 				public void success() {
 					Gdx.app.log(TAG, "Autosignin: User logged in successfully.");
@@ -154,7 +175,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	private void handleGUIFacebookSignin() {
 
-		fbAPI.signin(true, new ResponseListener() {
+		facebookAPI.signin(true, new ResponseListener() {
 			@Override
 			public void success() {
 				Gdx.app.log(TAG, "User logged in successfully.");
@@ -173,6 +194,27 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	}
 
+	private void handleGetUserFriendPermission() {
+		myConfig.PERMISSIONS += ",user_friends";
+		facebookAPI.signin(true, new ResponseListener() {
+			@Override
+			public void success() {
+				Gdx.app.log(TAG, "Permission user_friends received");
+			}
+
+			@Override
+			public void error(ResponseError responseError) {
+				Gdx.app.log(TAG, "Error: " + responseError.getMessage() + "(Error Code: " + responseError.getCode() + ")");
+			}
+
+			@Override
+			public void cancel() {
+				Gdx.app.log(TAG, "Could not get permission. Canceled.");
+			}
+		});
+
+	}
+
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -181,23 +223,24 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		updateText();
 
 		stage.draw();
+
 	}
 
 	private void logout() {
-		fbAPI.signout();
+		facebookAPI.signout();
 		fbNickname = null;
 		fbID = null;
 	}
 
 	private void updateText() {
-		if (fbAPI.isSignedin()) {
+		if (facebookAPI.isSignedin()) {
 			if (fbNickname == null && fbID == null) {
 
 				if (lastRequest + 10 < TimeUtils.millis() / 1000L) {
 
 					lastRequest = TimeUtils.millis() / 1000L;
 
-					fbAPI.newGraphRequest("me", "access_token=" + fbAPI.getAccessToken(), new HttpResponseListener() {
+					facebookAPI.newGraphRequest("me", "access_token=" + facebookAPI.getAccessToken(), new HttpResponseListener() {
 
 						@Override
 						public void handleHttpResponse(HttpResponse httpResponse) {
@@ -215,7 +258,6 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 								Gdx.app.log(TAG, "Name: " + fbNickname);
 								Gdx.app.log(TAG, "ID: " + fbID);
 
-								facebookFont.setText("Hello " + fbNickname + ", your unique ID is: " + fbID);
 							} else {
 								Gdx.app.log(TAG, "Request with error. Something went wrong with the access token.");
 								logout();
@@ -225,7 +267,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 						@Override
 						public void failed(Throwable t) {
-							Gdx.app.log(TAG, "Request cancelled. Reason: " + t.getMessage());
+							Gdx.app.log(TAG, "Request failed. Reason: " + t.getMessage());
 
 						}
 
@@ -237,6 +279,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 					});
 				}
 			}
+			facebookFont.setText("Hello " + fbNickname + ", your unique ID is: " + fbID);
 		} else {
 			facebookFont.setText(NOT_LOGGED_IN);
 		}
@@ -261,7 +304,6 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	public void dispose() {
 		stage.dispose();
 		facebookFont.dispose();
-		generator.dispose();
 
 	}
 }
