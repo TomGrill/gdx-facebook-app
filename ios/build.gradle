@@ -4,7 +4,7 @@ sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-	mainClassName = "de.tpronold.gdxfacebook.app.IOSLauncher"
+	mainClassName = "de.tomgrill.gdxfacebook.app.IOSLauncher"
 }
 
 // Extracts native libs (*.a) from the native-ios.jar and places them
