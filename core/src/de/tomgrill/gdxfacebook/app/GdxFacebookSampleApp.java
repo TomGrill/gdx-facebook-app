@@ -132,7 +132,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void autoSignin() {
-		if (prefs.getBoolean("autosignin", false) && facebookAPI.isLoaded()) {
+		if (prefs.getBoolean("autosignin", false) && facebookAPI.isLoaded() && !facebookAPI.isSignedin()) {
 			facebookAPI.signin(false, new ResponseListener() {
 				@Override
 				public void success() {
@@ -157,7 +157,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void handleGUIFacebookSignin() {
-		if (facebookAPI.isLoaded()) {
+		if (facebookAPI.isLoaded() && !facebookAPI.isSignedin()) {
 			facebookAPI.signin(true, new ResponseListener() {
 				@Override
 				public void success() {
