@@ -136,16 +136,19 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			facebookAPI.signin(false, new ResponseListener() {
 				@Override
 				public void success() {
+					checkbox.setChecked(true);
 					Gdx.app.log(TAG, "Autosignin: User logged in successfully.");
 				}
 
 				@Override
 				public void error(ResponseError responseError) {
+					checkbox.setChecked(false);
 					Gdx.app.log(TAG, "Autosignin: Error: " + responseError.getMessage() + "(Error Code: " + responseError.getCode() + ")");
 				}
 
 				@Override
 				public void cancel() {
+					checkbox.setChecked(false);
 					Gdx.app.log(TAG, "Autosignin: Something canceled login.");
 				}
 			});
@@ -261,7 +264,10 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 					});
 				}
 			}
-			facebookFont.setText("Hello " + fbNickname + ", your unique ID is: " + fbID);
+
+			if (fbNickname != null && fbID != null) {
+				facebookFont.setText("Hello " + fbNickname + ", your unique ID is: " + fbID);
+			}
 		} else {
 			facebookFont.setText(NOT_LOGGED_IN);
 		}
