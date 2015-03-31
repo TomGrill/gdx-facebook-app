@@ -39,7 +39,8 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	private static final String NOT_LOGGED_IN = "You are not logged in.";
 
 	private Stage stage;
-	private ButtonActor facebookButton;
+	private ButtonActor loginButton;
+	private ButtonActor logoutButton;
 	private BitmapFontActor facebookFont;
 	private BitmapFontActor autoLogin;
 
@@ -71,9 +72,10 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 		/* facebook */
 
-		facebookButton = new ButtonActor(new TextureRegion(new Texture("facebook-button.png")));
-		facebookButton.addListener(new InputListener() {
+		loginButton = new ButtonActor(new TextureRegion(new Texture("facebook-button.png")));
+		loginButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				System.out.println("TDOWN li");
 				return true;
 			}
 
@@ -82,13 +84,36 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			}
 
 		});
-		facebookButton.setX(640 / 2 - 300 / 2);
-		facebookButton.setY(600);
+		loginButton.setX(640 / 2f - 300 / 2f);
+		loginButton.setY(600);
 
-		facebookButton.setWidth(300);
-		facebookButton.setHeight(60);
+		loginButton.setWidth(300);
+		loginButton.setHeight(60);
+		loginButton.setVisible(false);
 
-		stage.addActor(facebookButton);
+		stage.addActor(loginButton);
+
+		logoutButton = new ButtonActor(new TextureRegion(new Texture("logout-button.jpg")));
+		logoutButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				System.out.println("TDOWN logout");
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				System.out.println("logout pressed");
+				handleLogout();
+			}
+
+		});
+		logoutButton.setX(640 / 2f - 106 / 2f);
+		logoutButton.setY(600);
+
+		logoutButton.setWidth(106);
+		logoutButton.setHeight(40);
+		logoutButton.setVisible(false);
+
+		stage.addActor(logoutButton);
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("UbuntuMono-Regular.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -128,11 +153,21 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		checkbox.setVisible(true);
 		stage.addActor(checkbox);
 
-		
+		autoSignin();
+
+	}
+
+	private void handleLogout() {
+		checkbox.setChecked(false);
+		if (facebookAPI.isSignedin()) {
+			facebookAPI.signout();
+		}
 	}
 
 	private void autoSignin() {
+		System.out.println("auto");
 		if (prefs.getBoolean("autosignin", false) && facebookAPI.isLoaded() && !facebookAPI.isSignedin()) {
+			System.out.println("asdf");
 			facebookAPI.signin(false, new ResponseListener() {
 				@Override
 				public void success() {
@@ -157,6 +192,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void handleGUIFacebookSignin() {
+
 		if (facebookAPI.isLoaded() && !facebookAPI.isSignedin()) {
 			facebookAPI.signin(true, new ResponseListener() {
 				@Override
@@ -166,7 +202,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 				@Override
 				public void error(ResponseError responseError) {
-					Gdx.app.log(TAG, "Error: " + responseError.getMessage() + "(Error Code: " + responseError.getCode() + ")");
+					Gdx.app.log(TAG, "Error: " + responseError.getMessage() + "(Error Code: " + responseError.getCode() + ")" + this);
 				}
 
 				@Override
@@ -177,16 +213,26 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		}
 	}
 
-	
-
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		updateText();
+		updateButton();
 
 		stage.draw();
+
+	}
+
+	private void updateButton() {
+		if (facebookAPI.isSignedin()) {
+			loginButton.setVisible(false);
+			logoutButton.setVisible(true);
+		} else {
+			loginButton.setVisible(true);
+			logoutButton.setVisible(false);
+		}
 
 	}
 
@@ -195,10 +241,9 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		fbNickname = null;
 		fbID = null;
 	}
-	
+
 	@Override
 	public void resume() {
-		super.resume();
 		autoSignin();
 	}
 
@@ -278,5 +323,10 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		stage.dispose();
 		facebookFont.dispose();
 
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
 	}
 }
