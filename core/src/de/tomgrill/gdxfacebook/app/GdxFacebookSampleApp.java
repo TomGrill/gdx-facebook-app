@@ -128,7 +128,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		checkbox.setVisible(true);
 		stage.addActor(checkbox);
 
-		autoSignin();
+		
 	}
 
 	private void autoSignin() {
@@ -177,28 +177,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		}
 	}
 
-	private void handleGetUserFriendPermission() {
-		myConfig.PERMISSIONS += ",user_friends";
-		if (facebookAPI.isLoaded()) {
-			facebookAPI.signin(true, new ResponseListener() {
-				@Override
-				public void success() {
-					Gdx.app.log(TAG, "Permission user_friends received");
-				}
-
-				@Override
-				public void error(ResponseError responseError) {
-					Gdx.app.log(TAG, "Error: " + responseError.getMessage() + "(Error Code: " + responseError.getCode() + ")");
-				}
-
-				@Override
-				public void cancel() {
-					Gdx.app.log(TAG, "Could not get permission. Canceled.");
-				}
-			});
-
-		}
-	}
+	
 
 	@Override
 	public void render() {
@@ -215,6 +194,12 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		facebookAPI.signout();
 		fbNickname = null;
 		fbID = null;
+	}
+	
+	@Override
+	public void resume() {
+		super.resume();
+		autoSignin();
 	}
 
 	private void updateText() {
