@@ -75,7 +75,6 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		loginButton = new ButtonActor(new TextureRegion(new Texture("facebook-button.png")));
 		loginButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println("TDOWN li");
 				return true;
 			}
 
@@ -96,12 +95,10 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		logoutButton = new ButtonActor(new TextureRegion(new Texture("logout-button.jpg")));
 		logoutButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println("TDOWN logout");
 				return true;
 			}
 
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println("logout pressed");
 				handleLogout();
 			}
 
@@ -165,9 +162,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void autoSignin() {
-		System.out.println("auto");
 		if (prefs.getBoolean("autosignin", false) && facebookAPI.isLoaded() && !facebookAPI.isSignedin()) {
-			System.out.println("asdf");
 			facebookAPI.signin(false, new ResponseListener() {
 				@Override
 				public void success() {
