@@ -1,9 +1,6 @@
 # gdx-facebook-app
 Example libGDX application implementing the gdx-facebook extension.
 
-## Quick example
-Google play: https://play.google.com/store/apps/details?id=de.tomgrill.gdxfacebook.app.android
-
 ## Setting up your Facebook App
 Go to https://developers.facebook.com/apps/ and create a new app. 
 
