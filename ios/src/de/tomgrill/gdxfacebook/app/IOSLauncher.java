@@ -33,7 +33,6 @@ public class IOSLauncher extends IOSApplication.Delegate {
 		super.didBecomeActive(application);
 		// You need to add this line, otherwise Facebook will not work
 		// correctly!
-
 		FBSDKAppEvents.activateApp();
 	}
 
@@ -41,22 +40,15 @@ public class IOSLauncher extends IOSApplication.Delegate {
 	public boolean openURL(UIApplication application, NSURL url, String sourceApplication, NSPropertyList annotation) {
 		// You need to add this line, otherwise Facebook will not work
 		// correctly!
-
 		return FBSDKApplicationDelegate.getSharedInstance().openURL(application, url, sourceApplication, annotation);
 
-	}
-
-	// @Override
-	// public void willTerminate(UIApplication application) {
-	// // You need to add this line, otherwise Facebook will not work
-	// // correctly!
-	// FacebookManager.getInstance().handleWillTerminate(application);
-	// super.willTerminate(application);
-	// }
+	}	
 
 	@Override
 	public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
-		return FBSDKApplicationDelegate.getSharedInstance().didFinishLaunching(application, launchOptions);
+		boolean finished = super.didFinishLaunching(application, launchOptions);
+		FBSDKApplicationDelegate.getSharedInstance().didFinishLaunching(application, launchOptions);
+		return finished;
 	}
 
 }
