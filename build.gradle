@@ -95,6 +95,8 @@ project(":ios") {
         
         compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"
         
+        compile "org.robovm:robopods-facebook-ios:1.0-SNAPSHOT"
+        
         
     	compile fileTree(dir: 'libs', include: '*.jar')
     }
