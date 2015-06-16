@@ -68,7 +68,7 @@ project(":android") {
         
         compile 'com.android.support:appcompat-v7:21.0.+'
         
-        compile ("com.facebook.android:facebook-android-sdk:4.0.0") {
+        compile ("com.facebook.android:facebook-android-sdk:4.1.0") {
 			exclude module: 'support-v4'
 		}
         
