@@ -63,5 +63,6 @@ build/
 ## OS Specific
 .DS_Store
 
+assembleApkAndSign.sh
 
 

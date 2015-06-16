@@ -35,21 +35,5 @@ Import project to your IDE
 **In iOS project**
 
 1. Edit robovm.properties and replace facebook.* variables with your Facebook App settings. (You may also edit app.* variables depending on your provisioning profiles and certificates.)
-2. Open Info.plist.xml and edit this part accordingly 
-```<key>FacebookAppID</key>
-<string>0123456789</string>
-<key>FacebookDisplayName</key>
-<string>YOUR_FACEBOOK_APP_NAME</string>
-<key>CFBundleURLTypes</key>
-<array>
-<dict>
-<key>CFBundleURLSchemes</key>
-<array>
-    <string>fb0123456789</string>
-</array>
-</dict>
-</array>
-```
- 
  
 You should be good to go.
