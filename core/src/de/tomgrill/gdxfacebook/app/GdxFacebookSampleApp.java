@@ -1,5 +1,8 @@
 package de.tomgrill.gdxfacebook.app;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -26,15 +29,16 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import de.tomgrill.gdxfacebook.app.actors.BitmapFontActor;
 import de.tomgrill.gdxfacebook.app.actors.ButtonActor;
-import de.tomgrill.gdxfacebook.core.FacebookAPI;
-import de.tomgrill.gdxfacebook.core.FacebookConfig;
-import de.tomgrill.gdxfacebook.core.FacebookSystem;
-import de.tomgrill.gdxfacebook.core.ResponseError;
-import de.tomgrill.gdxfacebook.core.ResponseListener;
+import de.tomgrill.gdxfacebook.core.GDXFacebook;
+import de.tomgrill.gdxfacebook.core.GDXFacebookCallback;
+import de.tomgrill.gdxfacebook.core.GDXFacebookConfig;
+import de.tomgrill.gdxfacebook.core.GDXFacebookError;
+import de.tomgrill.gdxfacebook.core.GDXFacebookLoginResult;
+import de.tomgrill.gdxfacebook.core.GDXFacebookSystem;
 
 public class GdxFacebookSampleApp extends ApplicationAdapter {
 
-	private static final String TAG = GdxFacebookSampleApp.class.getName();
+	private static final String TAG = GdxFacebookSampleApp.class.getSimpleName();
 
 	private static final String NOT_LOGGED_IN = "You are not logged in.";
 
@@ -46,7 +50,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	private CheckBox checkbox;
 
-	private FacebookAPI facebookAPI;
+	private GDXFacebook gdxFacebook;
 
 	private String fbNickname;
 	private String fbID;
@@ -55,10 +59,16 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	Preferences prefs;
 
-	private FacebookConfig myConfig = new MyFacebookConfig();
+	private GDXFacebookConfig myConfig = new MyFacebookConfig();
+
+	private List<String> permissions = new ArrayList<String>();
 
 	@Override
 	public void create() {
+
+		permissions.add("email");
+		permissions.add("public_profile");
+		permissions.add("user_friends");
 
 		prefs = Gdx.app.getPreferences("gdx-facebook-app-data.txt");
 
@@ -67,14 +77,14 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		stage = new Stage(new ExtendViewport(640, 800, 640, 800));
 		Gdx.input.setInputProcessor(stage);
 
-		FacebookSystem facebookSystem = new FacebookSystem(myConfig);
-		facebookAPI = facebookSystem.getFacebookAPI();
+		gdxFacebook = GDXFacebookSystem.install(myConfig);
 
 		/* facebook */
 
 		loginButton = new ButtonActor(new TextureRegion(new Texture("facebook-button.png")));
 		loginButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				System.out.println("loginButton down");
 				return true;
 			}
 
@@ -95,11 +105,12 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		logoutButton = new ButtonActor(new TextureRegion(new Texture("logout-button.jpg")));
 		logoutButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				System.out.println("logoutButton down");
 				return true;
 			}
 
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				handleLogout();
+				logout();
 			}
 
 		});
@@ -154,56 +165,57 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	}
 
-	private void handleLogout() {
-		checkbox.setChecked(false);
-		if (facebookAPI.isSignedin()) {
-			facebookAPI.signout();
-		}
-	}
-
 	private void autoSignin() {
-		if (prefs.getBoolean("autosignin", false) && facebookAPI.isLoaded() && !facebookAPI.isSignedin()) {
-			facebookAPI.signin(false, new ResponseListener() {
+		if (prefs.getBoolean("autosignin", false) && !gdxFacebook.isLoggedIn()) {
+
+			gdxFacebook.loginWithReadPermissions(permissions, new GDXFacebookCallback<GDXFacebookLoginResult>() {
+
 				@Override
-				public void success() {
+				public void onSuccess(GDXFacebookLoginResult result) {
 					checkbox.setChecked(true);
 					Gdx.app.log(TAG, "Autosignin: User logged in successfully.");
 				}
 
 				@Override
-				public void error(ResponseError responseError) {
+				public void onError(GDXFacebookError error) {
 					checkbox.setChecked(false);
-					Gdx.app.log(TAG, "Autosignin: Error: " + responseError.getMessage() + "(Error Code: " + responseError.getCode() + ")");
+					Gdx.app.log(TAG, "Autosignin: Error: " + error.getErrorMessage());
 				}
 
 				@Override
-				public void cancel() {
+				public void onCancel() {
 					checkbox.setChecked(false);
 					Gdx.app.log(TAG, "Autosignin: Something canceled login.");
+
 				}
+
 			});
+
 		}
 
 	}
 
 	private void handleGUIFacebookSignin() {
 
-		if (facebookAPI.isLoaded() && !facebookAPI.isSignedin()) {
-			facebookAPI.signin(true, new ResponseListener() {
+		if (!gdxFacebook.isLoggedIn()) {
+			gdxFacebook.loginWithReadPermissions(permissions, new GDXFacebookCallback<GDXFacebookLoginResult>() {
+
 				@Override
-				public void success() {
-					Gdx.app.log(TAG, "User logged in successfully.");
+				public void onSuccess(GDXFacebookLoginResult result) {
+					Gdx.app.log(TAG, "User logged in successfully. New AccessToken: " + result.getAccessToken());
 				}
 
 				@Override
-				public void error(ResponseError responseError) {
-					Gdx.app.log(TAG, "Error: " + responseError.getMessage() + "(Error Code: " + responseError.getCode() + ")" + this);
+				public void onError(GDXFacebookError error) {
+					Gdx.app.log(TAG, "Error: " + error.getErrorMessage());
 				}
 
 				@Override
-				public void cancel() {
+				public void onCancel() {
 					Gdx.app.log(TAG, "User canceled login.");
+
 				}
+
 			});
 		}
 	}
@@ -221,7 +233,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void updateButton() {
-		if (facebookAPI.isSignedin()) {
+		if (gdxFacebook.isLoggedIn()) {
 			loginButton.setVisible(false);
 			logoutButton.setVisible(true);
 		} else {
@@ -232,9 +244,11 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void logout() {
-		facebookAPI.signout();
+		gdxFacebook.logOut();
+		checkbox.setChecked(false);
 		fbNickname = null;
 		fbID = null;
+		System.out.println("logging out");
 	}
 
 	@Override
@@ -243,14 +257,14 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void updateText() {
-		if (facebookAPI.isSignedin()) {
+		if (gdxFacebook.isLoggedIn()) {
 			if (fbNickname == null && fbID == null) {
 
 				if (lastRequest + 10 < TimeUtils.millis() / 1000L) {
 
 					lastRequest = TimeUtils.millis() / 1000L;
 
-					facebookAPI.newGraphRequest("me", "access_token=" + facebookAPI.getAccessToken(), new HttpResponseListener() {
+					gdxFacebook.newGraphRequest("https://graph.facebook.com/me", null, new HttpResponseListener() {
 
 						@Override
 						public void handleHttpResponse(HttpResponse httpResponse) {
@@ -269,6 +283,8 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 								Gdx.app.log(TAG, "ID: " + fbID);
 
 							} else {
+								System.out.println(httpResponse.getResultAsString());
+
 								Gdx.app.log(TAG, "Request with error. Something went wrong with the access token.");
 								logout();
 							}
