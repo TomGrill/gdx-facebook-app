@@ -64,10 +64,10 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         
-        compile 'com.android.support:appcompat-v7:21.0.+'
+//        compile 'com.android.support:appcompat-v7:21.0.+'
         
         compile ("com.facebook.android:facebook-android-sdk:4.1.0") {
-			exclude module: 'support-v4'
+//			exclude module: 'support-v4'
 		}
         
         compile "de.tomgrill.gdxfacebook:gdx-facebook-android:$gdxFacebookVersion"
