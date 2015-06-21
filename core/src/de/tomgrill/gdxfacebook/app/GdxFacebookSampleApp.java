@@ -6,8 +6,6 @@ import java.util.List;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net.HttpResponse;
-import com.badlogic.gdx.Net.HttpResponseListener;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -33,6 +31,8 @@ import de.tomgrill.gdxfacebook.core.GDXFacebook;
 import de.tomgrill.gdxfacebook.core.GDXFacebookCallback;
 import de.tomgrill.gdxfacebook.core.GDXFacebookConfig;
 import de.tomgrill.gdxfacebook.core.GDXFacebookError;
+import de.tomgrill.gdxfacebook.core.GDXFacebookGraphRequest;
+import de.tomgrill.gdxfacebook.core.GDXFacebookGraphResult;
 import de.tomgrill.gdxfacebook.core.GDXFacebookLoginResult;
 import de.tomgrill.gdxfacebook.core.GDXFacebookSystem;
 
@@ -84,7 +84,6 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		loginButton = new ButtonActor(new TextureRegion(new Texture("facebook-button.png")));
 		loginButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println("loginButton down");
 				return true;
 			}
 
@@ -105,7 +104,6 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		logoutButton = new ButtonActor(new TextureRegion(new Texture("logout-button.jpg")));
 		logoutButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println("logoutButton down");
 				return true;
 			}
 
@@ -189,6 +187,11 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 				}
 
+				@Override
+				public void onFail(Throwable t) {
+					t.printStackTrace();
+				}
+
 			});
 
 		}
@@ -213,6 +216,12 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 				@Override
 				public void onCancel() {
 					Gdx.app.log(TAG, "User canceled login.");
+
+				}
+
+				@Override
+				public void onFail(Throwable t) {
+					t.printStackTrace();
 
 				}
 
@@ -248,7 +257,6 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		checkbox.setChecked(false);
 		fbNickname = null;
 		fbID = null;
-		System.out.println("logging out");
 	}
 
 	@Override
@@ -257,6 +265,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void updateText() {
+
 		if (gdxFacebook.isLoggedIn()) {
 			if (fbNickname == null && fbID == null) {
 
@@ -264,45 +273,45 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 					lastRequest = TimeUtils.millis() / 1000L;
 
-					gdxFacebook.newGraphRequest("https://graph.facebook.com/me", null, new HttpResponseListener() {
+					GDXFacebookGraphRequest request = new GDXFacebookGraphRequest().setNode("me").useCurrentAccessToken();
+
+					gdxFacebook.newGraphRequest(request, new GDXFacebookCallback<GDXFacebookGraphResult>() {
 
 						@Override
-						public void handleHttpResponse(HttpResponse httpResponse) {
-							if (httpResponse.getStatus().getStatusCode() == 200) {
+						public void onSuccess(GDXFacebookGraphResult result) {
 
-								String result = httpResponse.getResultAsString();
+							JsonValue root = new JsonReader().parse(result.getResultAsJson());
 
-								Gdx.app.log(TAG, "Request successfull: Responsebody: " + result);
+							fbID = root.getString("id");
 
-								JsonValue root = new JsonReader().parse(result);
+							fbNickname = root.getString("name");
 
-								fbID = root.getString("id");
-								fbNickname = root.getString("name");
-
-								Gdx.app.log(TAG, "Name: " + fbNickname);
-								Gdx.app.log(TAG, "ID: " + fbID);
-
-							} else {
-								System.out.println(httpResponse.getResultAsString());
-
-								Gdx.app.log(TAG, "Request with error. Something went wrong with the access token.");
-								logout();
-							}
+							Gdx.app.log(TAG, "Name: " + fbNickname);
+							Gdx.app.log(TAG, "ID: " + fbID);
 
 						}
 
 						@Override
-						public void failed(Throwable t) {
-							Gdx.app.log(TAG, "Request failed. Reason: " + t.getMessage());
+						public void onError(GDXFacebookError error) {
+							System.out.println(error.getErrorMessage());
+
+							Gdx.app.log(TAG, "Request with error. Something went wrong with the access token.");
+							logout();
 
 						}
 
 						@Override
-						public void cancelled() {
+						public void onCancel() {
 							Gdx.app.log(TAG, "Request cancelled. Reason unknown.");
 
 						}
+
+						@Override
+						public void onFail(Throwable t) {
+							t.printStackTrace();
+						}
 					});
+
 				}
 			}
 
