@@ -26,7 +26,7 @@ nothing to do.
 **General**
 Import project to your IDE
 
-1. Edit MyFacebookConfig core project. Replace APP_ID with your Facebook App ID. 
+1. Create MyFacebookConfig extends GDXFacebookConfig class. Replace APP_ID with your Facebook App ID. 
 
 **In Android project**
 
