@@ -29,7 +29,6 @@ import de.tomgrill.gdxfacebook.app.actors.BitmapFontActor;
 import de.tomgrill.gdxfacebook.app.actors.ButtonActor;
 import de.tomgrill.gdxfacebook.core.GDXFacebook;
 import de.tomgrill.gdxfacebook.core.GDXFacebookCallback;
-import de.tomgrill.gdxfacebook.core.GDXFacebookCallbackAdapter;
 import de.tomgrill.gdxfacebook.core.GDXFacebookError;
 import de.tomgrill.gdxfacebook.core.GDXFacebookGraphRequest;
 import de.tomgrill.gdxfacebook.core.GDXFacebookGraphResult;
@@ -126,26 +125,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 		/** perform auto login */
 		if (prefs.getBoolean("autosignin", false)) {
-
-			GDXFacebookGraphRequest request = new GDXFacebookGraphRequest().setNode("me").useCurrentAccessToken();
-
-			gdxFacebook.newGraphRequest(request, new GDXFacebookCallbackAdapter<GDXFacebookGraphResult>() {
-
-				@Override
-				public void onSuccess(GDXFacebookGraphResult result) {
-					JsonValue root = new JsonReader().parse(result.getResultAsJson());
-
-					String fbID = root.getString("id");
-					String fbNickname = root.getString("name");
-
-					userLoginText.setText("Hello " + fbNickname + ", your unique ID is: " + fbID);
-
-					setPublishButtonStatus(true);
-					setLoginButtonStatus(true);
-				}
-
-			});
-
+			loginWithReadPermissions();
 		}
 	}
 
