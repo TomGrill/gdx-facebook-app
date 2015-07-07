@@ -1,5 +1,5 @@
 # gdx-facebook-app
-Example libGDX application implementing the gdx-facebook extension.
+Example libGDX application implementing the [gdx-facebook](https://github.com/TomGrill/gdx-facebook) extension.
 
 ## Setting up your Facebook App
 Go to https://developers.facebook.com/apps/ and create a new app. 
@@ -21,19 +21,33 @@ nothing to do.
 
 
 
-##Get it running
+##Prepare
 
 **General**
 Import project to your IDE
 
-1. Create MyFacebookConfig extends GDXFacebookConfig class. Replace APP_ID with your Facebook App ID. 
+Edit [MyFacebookConfig](core/src/de/tomgrill/gdxfacebook/app/MyFacebookConfig.java) Replace APP_ID with your Facebook App ID. 
 
 **In Android project**
 
-1. Edit res/facebook.xml ``` <string name="facebook_app_id">YOUR_APP_ID</string>``` 
+Edit res/facebook.xml ``` <string name="facebook_app_id">YOUR_APP_ID</string>``` 
 
 **In iOS project**
 
-1. Edit robovm.properties and replace facebook.* variables with your Facebook App settings. (You may also edit app.* variables depending on your provisioning profiles and certificates.)
- 
-You should be good to go.
+Edit robovm.properties and replace facebook.* variables with your Facebook App settings. (You may also edit app.* variables depending on your provisioning profiles and certificates.)
+
+
+##Run the app
+
+You can probably run this app as you are used to run your libGDX applications. However there is on exception:
+
+**Android:** 
+
+facebook-android-sdk comes as .aar file. There some IDEs (f.e. Eclipse) which are not capable of handling .aar files. This means you need to start your androd project from command line like this:
+
+Linux/Max:
+```./gradlew android:installDebug android:run```
+
+Windows:
+```gradlew android:installDebug android:run```
+
