@@ -277,7 +277,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	private void setupLoginInfoText() {
 		userLoginText = new BitmapFontActor(font);
 		userLoginText.setX(20);
-		userLoginText.setY(530);
+		userLoginText.setY(540);
 		userLoginText.setText(NOT_LOGGED_IN);
 		stage.addActor(userLoginText);
 
@@ -341,8 +341,9 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 			@Override
 			public void onSuccess(GDXFacebookLoginResult result) {
-				Gdx.app.debug(TAG, "READ REQUEST: User logged in successfully.");
-				gainUserInfo();
+				Gdx.app.debug(TAG, "READ REQUEST: User logged in successfully. User ID: " + result.getAccessToken().getUserId());
+
+				gainMoreUserInfo();
 				setPublishButtonStatus(true);
 				setLoginButtonStatus(true);
 			}
@@ -375,8 +376,9 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 			@Override
 			public void onSuccess(GDXFacebookLoginResult result) {
-				Gdx.app.debug(TAG, "PUBLISH REQUEST: User logged in successfully.");
-				gainUserInfo();
+				Gdx.app.debug(TAG, "PUBLISH REQUEST: User logged in successfully. User ID: " + result.getAccessToken().getUserId());
+
+				gainMoreUserInfo();
 				setPublishButtonStatus(true);
 				setLoginButtonStatus(true);
 				publishRequestText.setText("All good, you can post now");
@@ -416,7 +418,8 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	}
 
-	private void gainUserInfo() {
+	private void gainMoreUserInfo() {
+
 		GDXFacebookGraphRequest request = new GDXFacebookGraphRequest().setNode("me").useCurrentAccessToken();
 
 		gdxFacebook.newGraphRequest(request, new GDXFacebookCallback<GDXFacebookGraphResult>() {
@@ -425,10 +428,9 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			public void onSuccess(GDXFacebookGraphResult result) {
 				JsonValue root = new JsonReader().parse(result.getResultAsJson());
 
-				String fbID = root.getString("id");
 				String fbNickname = root.getString("name");
 
-				userLoginText.setText("Hello " + fbNickname + ", your unique ID is: " + fbID);
+				userLoginText.setText("Hello " + fbNickname + ", your unique ID is: " + gdxFacebook.getAccessToken().getUserId());
 			}
 
 			@Override
