@@ -33,7 +33,8 @@
     <pattern>org.apache.harmony.security.provider.cert.DRLCertFactory</pattern>
     <pattern>org.apache.harmony.security.provider.crypto.CryptoProvider</pattern>
     <pattern>java.util.logging.ConsoleHandler</pattern>
-    <pattern>de.tomgrill.gdxfacebook.ios.IOSGDXFacebook</pattern>
+    <pattern>java.util.logging.SimpleFormatter</pattern>
+    <pattern>de.tomgrill.gdxfacebook.ios.IOSGDXFacebook</pattern>    
   </forceLinkClasses>
   <libs>
     <lib>z</lib>
