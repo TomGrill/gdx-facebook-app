@@ -7,7 +7,7 @@ buildscript {
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'org.robovm:robovm-gradle-plugin:1.4.0'
+        classpath 'org.robovm:robovm-gradle-plugin:1.5.0'
     }
 }
 
@@ -18,8 +18,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'GDX Facebook Sample App'
-        gdxVersion = '1.6.3'
-        roboVMVersion = '1.4.0'
+        gdxVersion = '1.6.4'
+        roboVMVersion = '1.5.0'
       
         gdxFacebookVersion = '0.5.0-SNAPSHOT'
     }
