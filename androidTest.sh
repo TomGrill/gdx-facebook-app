@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-./gradlew android:installDebug android:run
+./gradlew clean android:installDebug android:run

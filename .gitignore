@@ -64,5 +64,5 @@ build/
 .DS_Store
 
 assembleApkAndSign.sh
-
+androidTest.sh
 
