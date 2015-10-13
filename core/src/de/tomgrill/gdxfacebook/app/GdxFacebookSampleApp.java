@@ -30,7 +30,6 @@ import de.tomgrill.gdxfacebook.core.GDXFacebookCallback;
 import de.tomgrill.gdxfacebook.core.GDXFacebookError;
 import de.tomgrill.gdxfacebook.core.GDXFacebookGraphRequest;
 import de.tomgrill.gdxfacebook.core.GDXFacebookSystem;
-import de.tomgrill.gdxfacebook.core.GameRequestResult;
 import de.tomgrill.gdxfacebook.core.JsonResult;
 import de.tomgrill.gdxfacebook.core.SignInMode;
 import de.tomgrill.gdxfacebook.core.SignInResult;
@@ -128,34 +127,35 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			loginWithReadPermissions();
 		}
 
-		gdxFacebook.showGameRequest("JOJOJO", new GDXFacebookCallback<GameRequestResult>() {
-
-			@Override
-			public void onSuccess(GameRequestResult result) {
-				System.out.println(result.getRequestId());
-				System.out.println(result.getRecipients());
-				System.out.println("GR SUCC");
-
-			}
-
-			@Override
-			public void onError(GDXFacebookError error) {
-				System.out.println("GR ERR");
-
-			}
-
-			@Override
-			public void onFail(Throwable t) {
-				System.out.println("GR FAIL");
-
-			}
-
-			@Override
-			public void onCancel() {
-				System.out.println("GR CAN");
-
-			}
-		});
+		// gdxFacebook.showGameRequest("JOJOJO", new
+		// GDXFacebookCallback<GameRequestResult>() {
+		//
+		// @Override
+		// public void onSuccess(GameRequestResult result) {
+		// System.out.println(result.getRequestId());
+		// System.out.println(result.getRecipients());
+		// System.out.println("GR SUCC");
+		//
+		// }
+		//
+		// @Override
+		// public void onError(GDXFacebookError error) {
+		// System.out.println("GR ERR");
+		//
+		// }
+		//
+		// @Override
+		// public void onFail(Throwable t) {
+		// System.out.println("GR FAIL");
+		//
+		// }
+		//
+		// @Override
+		// public void onCancel() {
+		// System.out.println("GR CAN");
+		//
+		// }
+		// });
 	}
 
 	private void setupPublishRequestText() {
