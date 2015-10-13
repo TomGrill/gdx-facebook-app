@@ -27,9 +27,9 @@ import de.tomgrill.gdxfacebook.app.actors.BitmapFontActor;
 import de.tomgrill.gdxfacebook.app.actors.ButtonActor;
 import de.tomgrill.gdxfacebook.core.GDXFacebook;
 import de.tomgrill.gdxfacebook.core.GDXFacebookCallback;
+import de.tomgrill.gdxfacebook.core.GDXFacebookError;
 import de.tomgrill.gdxfacebook.core.GDXFacebookGraphRequest;
 import de.tomgrill.gdxfacebook.core.GDXFacebookSystem;
-import de.tomgrill.gdxfacebook.core.GraphError;
 import de.tomgrill.gdxfacebook.core.JsonResult;
 import de.tomgrill.gdxfacebook.core.SignInMode;
 import de.tomgrill.gdxfacebook.core.SignInResult;
@@ -126,6 +126,36 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		if (prefs.getBoolean("autosignin", false)) {
 			loginWithReadPermissions();
 		}
+
+		// gdxFacebook.showGameRequest("JOJOJO", new
+		// GDXFacebookCallback<GameRequestResult>() {
+		//
+		// @Override
+		// public void onSuccess(GameRequestResult result) {
+		// System.out.println(result.getRequestId());
+		// System.out.println(result.getRecipients());
+		// System.out.println("GR SUCC");
+		//
+		// }
+		//
+		// @Override
+		// public void onError(GDXFacebookError error) {
+		// System.out.println("GR ERR");
+		//
+		// }
+		//
+		// @Override
+		// public void onFail(Throwable t) {
+		// System.out.println("GR FAIL");
+		//
+		// }
+		//
+		// @Override
+		// public void onCancel() {
+		// System.out.println("GR CAN");
+		//
+		// }
+		// });
 	}
 
 	private void setupPublishRequestText() {
@@ -199,7 +229,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			}
 
 			@Override
-			public void onError(GraphError error) {
+			public void onError(GDXFacebookError error) {
 				Gdx.app.error(TAG, "An error occured while trying to post to user wall:" + error.getErrorMessage());
 				postToWallText.setText("ERROR OCCURRED - view your log output");
 
@@ -362,7 +392,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			}
 
 			@Override
-			public void onError(GraphError error) {
+			public void onError(GDXFacebookError error) {
 				Gdx.app.error(TAG, "SIGN IN (read permissions): Error login: " + error.getErrorMessage());
 				logout();
 
@@ -402,7 +432,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			}
 
 			@Override
-			public void onError(GraphError error) {
+			public void onError(GDXFacebookError error) {
 				Gdx.app.error(TAG, "SIGN IN (publish permissions): Error login: " + error.getErrorMessage());
 				publishRequestText.setText("PUBLISH REQUEST ERROR: view log output");
 				logout();
@@ -452,7 +482,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			}
 
 			@Override
-			public void onError(GraphError error) {
+			public void onError(GDXFacebookError error) {
 				Gdx.app.error(TAG, "Graph Reqest: Error. Something went wrong with the access token.");
 				logout();
 
