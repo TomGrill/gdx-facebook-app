@@ -1,8 +1,5 @@
 package de.tomgrill.gdxfacebook.app;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -21,19 +18,21 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import de.tomgrill.gdxfacebook.app.actors.BitmapFontActor;
 import de.tomgrill.gdxfacebook.app.actors.ButtonActor;
 import de.tomgrill.gdxfacebook.core.GDXFacebook;
 import de.tomgrill.gdxfacebook.core.GDXFacebookCallback;
-import de.tomgrill.gdxfacebook.core.GDXFacebookError;
 import de.tomgrill.gdxfacebook.core.GDXFacebookGraphRequest;
-import de.tomgrill.gdxfacebook.core.GDXFacebookGraphResult;
-import de.tomgrill.gdxfacebook.core.GDXFacebookLoginResult;
 import de.tomgrill.gdxfacebook.core.GDXFacebookSystem;
+import de.tomgrill.gdxfacebook.core.GraphError;
+import de.tomgrill.gdxfacebook.core.JsonResult;
+import de.tomgrill.gdxfacebook.core.SignInMode;
+import de.tomgrill.gdxfacebook.core.SignInResult;
 
 public class GdxFacebookSampleApp extends ApplicationAdapter {
 
@@ -73,8 +72,8 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	private Preferences prefs;
 
-	private List<String> permissionsRead = new ArrayList<String>();
-	private List<String> permissionsPublish = new ArrayList<String>();
+	private Array<String> permissionsRead = new Array<String>();
+	private Array<String> permissionsPublish = new Array<String>();
 
 	@Override
 	public void create() {
@@ -175,22 +174,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 		request.putField("message", FB_WALL_MESSAGE);
 		request.putField("link", FB_WALL_LINK);
 		request.putField("caption", FB_WALL_CAPTION);
-		gdxFacebook.newGraphRequest(request, new GDXFacebookCallback<GDXFacebookGraphResult>() {
-
-			@Override
-			public void onSuccess(GDXFacebookGraphResult result) {
-				Gdx.app.debug(TAG, "Posted to user wall successful.");
-				Gdx.app.debug(TAG, "Response: " + result.getResultAsJson());
-				postToWallText.setText("CONGRATS - there is a new post on your wall.");
-
-			}
-
-			@Override
-			public void onError(GDXFacebookError error) {
-				Gdx.app.error(TAG, "An error occured while trying to post to user wall:" + error.getErrorMessage());
-				postToWallText.setText("ERROR OCCURRED - view your log output");
-
-			}
+		gdxFacebook.newGraphRequest(request, new GDXFacebookCallback<JsonResult>() {
 
 			@Override
 			public void onFail(Throwable t) {
@@ -204,6 +188,21 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 			public void onCancel() {
 				Gdx.app.debug(TAG, "Post to user wall has been cancelled.");
 				postToWallText.setText("POSTING HAS BEEN CANCELED");
+			}
+
+			@Override
+			public void onSuccess(JsonResult result) {
+				Gdx.app.debug(TAG, "Posted to user wall successful.");
+				Gdx.app.debug(TAG, "Response: " + result.getJsonValue().prettyPrint(OutputType.json, 1));
+				postToWallText.setText("CONGRATS - there is a new post on your wall.");
+
+			}
+
+			@Override
+			public void onError(GraphError error) {
+				Gdx.app.error(TAG, "An error occured while trying to post to user wall:" + error.getErrorMessage());
+				postToWallText.setText("ERROR OCCURRED - view your log output");
+
 			}
 
 		});
@@ -337,34 +336,36 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 	private void loginWithReadPermissions() {
 
-		gdxFacebook.loginWithReadPermissions(permissionsRead, new GDXFacebookCallback<GDXFacebookLoginResult>() {
+		gdxFacebook.signIn(SignInMode.READ, permissionsRead, new GDXFacebookCallback<SignInResult>() {
 
 			@Override
-			public void onSuccess(GDXFacebookLoginResult result) {
-				Gdx.app.debug(TAG, "READ REQUEST: User logged in successfully. User ID: " + result.getAccessToken().getUserId());
+			public void onSuccess(SignInResult result) {
+				Gdx.app.debug(TAG, "SIGN IN (read permissions): User signed in successfully.");
 
 				gainMoreUserInfo();
 				setPublishButtonStatus(true);
 				setLoginButtonStatus(true);
-			}
 
-			@Override
-			public void onError(GDXFacebookError error) {
-				Gdx.app.error(TAG, "READ REQUEST: Error login: " + error.getErrorMessage());
-				logout();
 			}
 
 			@Override
 			public void onCancel() {
-				Gdx.app.debug(TAG, "READ REQUEST: User canceled login process");
+				Gdx.app.debug(TAG, "SIGN IN (read permissions): User canceled login process");
 
 			}
 
 			@Override
 			public void onFail(Throwable t) {
-				Gdx.app.error(TAG, "READ REQUEST: Technical error occured:");
+				Gdx.app.error(TAG, "SIGN IN (read permissions): Technical error occured:");
 				logout();
 				t.printStackTrace();
+			}
+
+			@Override
+			public void onError(GraphError error) {
+				Gdx.app.error(TAG, "SIGN IN (read permissions): Error login: " + error.getErrorMessage());
+				logout();
+
 			}
 
 		});
@@ -372,38 +373,39 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void loginWithPublishPermissions() {
-		gdxFacebook.loginWithPublishPermissions(permissionsPublish, new GDXFacebookCallback<GDXFacebookLoginResult>() {
+		gdxFacebook.signIn(SignInMode.PUBLISH, permissionsPublish, new GDXFacebookCallback<SignInResult>() {
 
 			@Override
-			public void onSuccess(GDXFacebookLoginResult result) {
-				Gdx.app.debug(TAG, "PUBLISH REQUEST: User logged in successfully. User ID: " + result.getAccessToken().getUserId());
+			public void onSuccess(SignInResult result) {
+				Gdx.app.debug(TAG, "SIGN IN (publish permissions): User logged in successfully.");
 
 				gainMoreUserInfo();
 				setPublishButtonStatus(true);
 				setLoginButtonStatus(true);
 				publishRequestText.setText("All good, you can post now");
-			}
 
-			@Override
-			public void onError(GDXFacebookError error) {
-				Gdx.app.error(TAG, "PUBLISH REQUEST: Error login: " + error.getErrorMessage());
-				publishRequestText.setText("PUBLISH REQUEST ERROR: view log output");
-				logout();
 			}
 
 			@Override
 			public void onCancel() {
-				Gdx.app.debug(TAG, "PUBLISH REQUEST: User canceled login process");
+				Gdx.app.debug(TAG, "SIGN IN (publish permissions): User canceled login process");
 				publishRequestText.setText("PUBLISH REQUEST CANCELLED");
 
 			}
 
 			@Override
 			public void onFail(Throwable t) {
-				Gdx.app.error(TAG, "PUBLISH REQUEST: Technical error occured:");
+				Gdx.app.error(TAG, "SIGN IN (publish permissions): Technical error occured:");
 				publishRequestText.setText("PUBLISH REQUEST EXCEPTION: view log output");
 				logout();
 				t.printStackTrace();
+			}
+
+			@Override
+			public void onError(GraphError error) {
+				Gdx.app.error(TAG, "SIGN IN (publish permissions): Error login: " + error.getErrorMessage());
+				publishRequestText.setText("PUBLISH REQUEST ERROR: view log output");
+				logout();
 			}
 
 		});
@@ -422,36 +424,38 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
 		GDXFacebookGraphRequest request = new GDXFacebookGraphRequest().setNode("me").useCurrentAccessToken();
 
-		gdxFacebook.newGraphRequest(request, new GDXFacebookCallback<GDXFacebookGraphResult>() {
+		gdxFacebook.newGraphRequest(request, new GDXFacebookCallback<JsonResult>() {
 
 			@Override
-			public void onSuccess(GDXFacebookGraphResult result) {
-				JsonValue root = new JsonReader().parse(result.getResultAsJson());
+			public void onSuccess(JsonResult result) {
+				JsonValue root = result.getJsonValue();
 
 				String fbNickname = root.getString("name");
+				String fbIdForThisApp = root.getString("id");
 
-				userLoginText.setText("Hello " + fbNickname + ", your unique ID is: " + gdxFacebook.getAccessToken().getUserId());
-			}
-
-			@Override
-			public void onError(GDXFacebookError error) {
-				Gdx.app.error(TAG, "Request with error. Something went wrong with the access token.");
-				logout();
-
+				userLoginText.setText("Hello " + fbNickname + ", your unique ID is: " + fbIdForThisApp);
+				Gdx.app.debug(TAG, "Graph Reqest: successful");
 			}
 
 			@Override
 			public void onCancel() {
 				logout();
-				Gdx.app.debug(TAG, "Request cancelled. Reason unknown.");
+				Gdx.app.debug(TAG, "Graph Reqest: Request cancelled. Reason unknown.");
 
 			}
 
 			@Override
 			public void onFail(Throwable t) {
-				Gdx.app.error(TAG, "Request with exception.");
+				Gdx.app.error(TAG, "Graph Reqest: Failed with exception.");
 				logout();
 				t.printStackTrace();
+			}
+
+			@Override
+			public void onError(GraphError error) {
+				Gdx.app.error(TAG, "Graph Reqest: Error. Something went wrong with the access token.");
+				logout();
+
 			}
 		});
 
@@ -477,7 +481,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void logout() {
-		gdxFacebook.logOut();
+		gdxFacebook.signOut();
 		userLoginText.setText(NOT_LOGGED_IN);
 		checkbox.setChecked(false);
 		setPublishButtonStatus(false);
