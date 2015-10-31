@@ -21,7 +21,7 @@ allprojects {
         gdxVersion = '1.7.0'
         roboVMVersion = '1.8.0'
       
-        gdxFacebookVersion = '0.6.0-SNAPSHOT'
+        gdxFacebookVersion = '1.0.3-SNAPSHOT'
     }
 
     repositories {
@@ -65,12 +65,12 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         
         
-        compile "com.facebook.android:facebook-android-sdk:4.6.0"
+        compile ("de.tomgrill.gdxfacebook:gdx-facebook-android:$gdxFacebookVersion") 
         
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-android:$gdxFacebookVersion"
-        
-//        compile fileTree(dir: 'libs', include: '*.jar')
+        compile fileTree(dir: 'libs', include: '*.jar')
     }
+    
+    
 }
 
 project(":ios") {
@@ -88,9 +88,8 @@ project(":ios") {
         
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
         
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"
-        
-        compile "org.robovm:robopods-facebook-ios:1.5.0"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"      
+       
         
     	compile fileTree(dir: 'libs', include: '*.jar')
     }
