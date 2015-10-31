@@ -21,7 +21,7 @@ allprojects {
         gdxVersion = '1.7.0'
         roboVMVersion = '1.8.0'
       
-        gdxFacebookVersion = '1.1.0'
+        gdxFacebookVersion = '1.1.1-SNAPSHOT'
     }
 
     repositories {
