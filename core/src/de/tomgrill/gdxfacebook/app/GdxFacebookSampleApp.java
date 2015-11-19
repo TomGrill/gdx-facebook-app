@@ -25,14 +25,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import de.tomgrill.gdxfacebook.app.actors.BitmapFontActor;
 import de.tomgrill.gdxfacebook.app.actors.ButtonActor;
-import de.tomgrill.gdxfacebook.core.GDXFacebook;
-import de.tomgrill.gdxfacebook.core.GDXFacebookCallback;
-import de.tomgrill.gdxfacebook.core.GDXFacebookError;
-import de.tomgrill.gdxfacebook.core.GDXFacebookGraphRequest;
-import de.tomgrill.gdxfacebook.core.GDXFacebookSystem;
-import de.tomgrill.gdxfacebook.core.JsonResult;
-import de.tomgrill.gdxfacebook.core.SignInMode;
-import de.tomgrill.gdxfacebook.core.SignInResult;
+import de.tomgrill.gdxfacebook.core.*;
 
 public class GdxFacebookSampleApp extends ApplicationAdapter {
 
@@ -482,7 +475,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 	}
 
 	private void logout() {
-		gdxFacebook.signOut();
+		gdxFacebook.signOut(SignOutMode.KEEP_SESSION_DATA);
 		userLoginText.setText(NOT_LOGGED_IN);
 		checkbox.setChecked(false);
 		setPublishButtonStatus(false);
