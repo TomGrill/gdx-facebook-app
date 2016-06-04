@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
@@ -15,13 +16,13 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.0'
+    version = '1.2.0'
     ext {
         appName = 'GDX Facebook Sample App'
         gdxVersion = '1.9.3'
         roboVMVersion = '2.1.0'
       
-        gdxFacebookVersion = '1.1.1'
+        gdxFacebookVersion = '1.2.0-SNAPSHOT'
     }
 
     repositories {
@@ -81,8 +82,8 @@ project(":ios") {
 
     dependencies {
         compile project(":core")
-        compile "org.robovm:robovm-rt:$roboVMVersion"
-        compile "org.robovm:robovm-cocoatouch:$roboVMVersion"
+        compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+        compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         

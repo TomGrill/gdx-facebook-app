@@ -43,3 +43,6 @@
    boolean reportFixture(long);
    float   reportRayFixture(long, float, float, float, float, float);
 }
+
+# gdx-facebook-app proguard settings - begin
+-keep class de.tomgrill.gdxfacebook.app.android.AndroidLauncher { *; }
