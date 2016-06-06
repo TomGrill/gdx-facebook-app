@@ -22,7 +22,7 @@ allprojects {
         gdxVersion = '1.9.3'
         roboVMVersion = '2.1.0'
       
-        gdxFacebookVersion = '1.2.0'
+        gdxFacebookVersion = '1.2.1-SNAPSHOT'
 
     }
 
