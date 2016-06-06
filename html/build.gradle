@@ -7,8 +7,8 @@ gwt {
     minHeapSize="1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'de.tpronold.gdxfacebook.app.GdxDefinition'
-    devModules 'de.tpronold.gdxfacebook.app.GdxDefinitionSuperdev'
+    modules 'de.tomgrill.gdxfacebook.app.GdxDefinition'
+    devModules 'de.tomgrill.gdxfacebook.app.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {
