@@ -4,7 +4,8 @@
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 
 	<inherits name='GdxFacebookSampleApp' />
-	<entry-point class='de.tpronold.gdxfacebook.app.client.HtmlLauncher' />
+
+	<entry-point class='de.tomgrill.gdxfacebook.app.client.HtmlLauncher' />
 	
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
 </module>

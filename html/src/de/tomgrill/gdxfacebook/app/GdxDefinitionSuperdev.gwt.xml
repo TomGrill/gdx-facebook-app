@@ -3,7 +3,8 @@
 <module rename-to="html">
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 
-    <inherits name='de.tpronold.gdxfacebook.app.GdxDefinition' />
+    <inherits name='de.tomgrill.gdxfacebook.app.GdxDefinition' />
+
     
     <collapse-all-properties />
     
