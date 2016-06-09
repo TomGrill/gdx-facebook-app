@@ -110,7 +110,6 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
         
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-html:$gdxFacebookVersion"
         compile "de.tomgrill.gdxfacebook:gdx-facebook-html:$gdxFacebookVersion:sources"
         compile "de.tomgrill.gdxfacebook:gdx-facebook-core:$gdxFacebookVersion:sources"
 
