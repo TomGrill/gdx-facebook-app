@@ -34,7 +34,7 @@
     <pattern>org.apache.harmony.security.provider.crypto.CryptoProvider</pattern>
     <pattern>java.util.logging.ConsoleHandler</pattern>
     <pattern>java.util.logging.SimpleFormatter</pattern>
-    <pattern>de.tomgrill.gdxfacebook.ios.IOSGDXFacebook</pattern>    
+    <pattern>de.tomgrill.gdxfacebook.ios.IOSFacebookLoader</pattern>
   </forceLinkClasses>
   <libs>
     <lib>z</lib>
