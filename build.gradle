@@ -6,8 +6,8 @@ buildscript {
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'org.robovm:robovm-gradle-plugin:1.9.0'
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.2.0-SNAPSHOT'
     }
 }
 
@@ -18,10 +18,10 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'GDX Facebook Sample App'
-        gdxVersion = '1.7.1'
-        roboVMVersion = '1.9.0'
+        gdxVersion = '1.9.3'
+        roboVMVersion = '2.2.0-SNAPSHOT'
       
-        gdxFacebookVersion = '1.1.1-SNAPSHOT'
+        gdxFacebookVersion = '1.2.1-SNAPSHOT'
     }
 
     repositories {
@@ -81,8 +81,8 @@ project(":ios") {
 
     dependencies {
         compile project(":core")
-        compile "org.robovm:robovm-rt:$roboVMVersion"
-        compile "org.robovm:robovm-cocoatouch:$roboVMVersion"
+        compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+        compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         
