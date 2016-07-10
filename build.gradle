@@ -4,12 +4,13 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
+        maven { url uri(System.getenv("INTEL_MULTI_OS_ENGINE_HOME") + "/gradle") }
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.2.0-SNAPSHOT'
-
+        classpath 'com.intel.gradle:moeGradlePlugin:1.1.0.final-1'
     }
 }
 
@@ -17,12 +18,12 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.2.0'
+    version = '1.2.3'
     ext {
         appName = 'GDX Facebook Sample App'
         gdxVersion = '1.9.3'
 
-        gdxFacebookVersion = '1.2.2'
+        gdxFacebookVersion = '1.2.3-SNAPSHOT'
 
         roboVMVersion = '2.2.0-SNAPSHOT'
 
@@ -95,7 +96,21 @@ project(":ios") {
         compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"      
        
         
-    	compile fileTree(dir: 'libs', include: '*.jar')
+//    	compile fileTree(dir: 'libs', include: '*.jar')
+    }
+}
+
+project(":ios-moe") {
+    apply plugin: "moe"
+
+    configurations { natives }
+
+    dependencies {
+        compile project(":core")
+        compile "com.badlogicgames.gdx:gdx-backend-moe:$gdxVersion"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-ios-moe:$gdxFacebookVersion"
     }
 }
 
