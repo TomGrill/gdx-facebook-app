@@ -1,10 +1,6 @@
 package de.tomgrill.gdxfacebook.app;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net.HttpMethods;
-import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -164,11 +160,11 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
     private void postToUserWall() {
 
         GDXFacebookGraphRequest request = new GDXFacebookGraphRequest().setNode("me/feed").useCurrentAccessToken();
-        request.setMethod(HttpMethods.POST);
+        request.setMethod(Net.HttpMethods.POST);
         request.putField("message", FB_WALL_MESSAGE);
         request.putField("link", FB_WALL_LINK);
         request.putField("caption", FB_WALL_CAPTION);
-        gdxFacebook.newGraphRequest(request, new GDXFacebookCallback<JsonResult>() {
+        gdxFacebook.graph(request, new GDXFacebookCallback<JsonResult>() {
 
             @Override
             public void onFail(Throwable t) {
