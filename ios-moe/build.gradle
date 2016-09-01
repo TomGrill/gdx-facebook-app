@@ -43,7 +43,7 @@ moe {
     mainClassName 'IOSMoeLauncher'
     xcode {
         mainTarget 'ios-moe'
-        packageName 'de.tomgrill.iosmoe'
+        packageName 'de.tomgrill.gdxfacebook.app'
         deploymentTarget = '9.0'
         xcodeProjectDirPath 'xcode'
         generateProject false

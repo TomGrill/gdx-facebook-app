@@ -3,9 +3,9 @@ package de.tomgrill.gdxfacebook.app;
 import com.badlogic.gdx.backends.iosmoe.IOSApplication;
 import com.badlogic.gdx.backends.iosmoe.IOSApplicationConfiguration;
 import com.intel.moe.natj.general.Pointer;
+import ios.foundation.NSAutoreleasePool;
 import ios.foundation.NSDictionary;
 import ios.uikit.c.UIKit;
-import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.pods.facebook.core.FBSDKAppEvents;
 
 
@@ -26,9 +26,9 @@ public class IOSMoeLauncher extends IOSApplication.Delegate {
     }
 
     public static void main(String[] argv) {
-        NSAutoreleasePool pool = new NSAutoreleasePool();
+        NSAutoreleasePool pool = NSAutoreleasePool.alloc();
         UIKit.UIApplicationMain(0, null, null, IOSMoeLauncher.class.getName());
-        pool.close();
+        pool.dealloc();
     }
 
 
