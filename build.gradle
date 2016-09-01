@@ -23,7 +23,7 @@ allprojects {
         appName = 'GDX Facebook Sample App'
         gdxVersion = '1.9.4'
 
-        gdxFacebookVersion = '1.2.4-SNAPSHOT'
+        gdxFacebookVersion = '1.2.4'
 
         roboVMVersion = '2.2.0'
 
