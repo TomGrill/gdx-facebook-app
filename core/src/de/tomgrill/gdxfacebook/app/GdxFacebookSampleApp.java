@@ -241,11 +241,12 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
         style.checkboxOff = new TextureRegionDrawable(new TextureRegion(checkboxDisabledTexture));
         style.checkboxOn = new TextureRegionDrawable(new TextureRegion(checkboxEnabledTexture));
 
+
         checkbox = new CheckBox("", style);
         checkbox.setX(130);
         checkbox.setY(470);
-        checkbox.setHeight(240 * 0.1f);
-        checkbox.setWidth(300 * 0.1f);
+//        checkbox.setHeight(240 * 0.1f);
+//        checkbox.setWidth(300 * 0.1f);
 
         if (prefs.getBoolean("autosignin", false)) {
             checkbox.setChecked(true);
