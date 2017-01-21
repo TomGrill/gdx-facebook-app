@@ -8,9 +8,9 @@ buildscript {
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:2.0.0'
-        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.2.0'
-        classpath 'com.intel.gradle:moeGradlePlugin:1.1.0.final-1'
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.0'
+        classpath 'org.multi-os-engine:moe-gradle:1.2.3'
     }
 }
 
@@ -18,14 +18,14 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.2.4'
+    version = '1.2.5'
     ext {
         appName = 'GDX Facebook Sample App'
-        gdxVersion = '1.9.4'
+        gdxVersion = '1.9.6-SNAPSHOT'
 
-        gdxFacebookVersion = '1.2.4'
+        gdxFacebookVersion = '1.2.5'
 
-        roboVMVersion = '2.2.0'
+        roboVMVersion = '2.3.0'
 
     }
 

@@ -7,6 +7,7 @@
 	<inherits name='GdxFacebookSampleApp' />
 
 	<entry-point class='de.tomgrill.gdxfacebook.app.client.HtmlLauncher' />
-	
+
+	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
 </module>

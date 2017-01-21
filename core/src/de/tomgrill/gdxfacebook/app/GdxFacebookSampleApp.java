@@ -1,6 +1,9 @@
 package de.tomgrill.gdxfacebook.app;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import de.tomgrill.gdxfacebook.app.actors.BitmapFontActor;
 import de.tomgrill.gdxfacebook.app.actors.ButtonActor;
@@ -159,43 +161,74 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
     private void postToUserWall() {
 
-        GDXFacebookGraphRequest request = new GDXFacebookGraphRequest().setNode("me/feed").useCurrentAccessToken();
-        request.setMethod(Net.HttpMethods.POST);
-        request.putField("message", FB_WALL_MESSAGE);
-        request.putField("link", FB_WALL_LINK);
-        request.putField("caption", FB_WALL_CAPTION);
-        gdxFacebook.graph(request, new GDXFacebookCallback<JsonResult>() {
+        GDXFacebookGameRequest request = new GDXFacebookGameRequest();
+        request.setMessage("Come on play this game with me!");
+        gdxFacebook.showGameRequest(request, new GDXFacebookCallback<GameRequestResult>() {
+
+            @Override
+            public void onSuccess(GameRequestResult result) {
+                System.out.println(result.getRequestId());  // The ID of the request
+                System.out.println(result.getRecipients()); // list of user ids who got the game requests
+            }
+
+            @Override
+            public void onError(GDXFacebookError error) {
+                // handle error
+
+                System.out.println(error.getErrorMessage());
+
+            }
 
             @Override
             public void onFail(Throwable t) {
-                Gdx.app.error(TAG, "Exception occured while trying to post to user wall.");
-                postToWallText.setText("EXCEPTION OCCURRED - view your log output");
-                t.printStackTrace();
+                // does not happen when doing game requests
 
             }
 
             @Override
             public void onCancel() {
-                Gdx.app.debug(TAG, "Post to user wall has been cancelled.");
-                postToWallText.setText("POSTING HAS BEEN CANCELED");
-            }
-
-            @Override
-            public void onSuccess(JsonResult result) {
-                Gdx.app.debug(TAG, "Posted to user wall successful.");
-                Gdx.app.debug(TAG, "Response: " + result.getJsonValue().prettyPrint(JsonWriter.OutputType.json, 1));
-                postToWallText.setText("CONGRATS - there is a new post on your wall.");
+                // handle cancel
 
             }
-
-            @Override
-            public void onError(GDXFacebookError error) {
-                Gdx.app.error(TAG, "An error occured while trying to post to user wall:" + error.getErrorMessage());
-                postToWallText.setText("ERROR OCCURRED - view your log output");
-
-            }
-
         });
+
+//        GDXFacebookGraphRequest request = new GDXFacebookGraphRequest().setNode("me/feed").useCurrentAccessToken();
+//        request.setMethod(Net.HttpMethods.POST);
+//        request.putField("message", FB_WALL_MESSAGE);
+//        request.putField("link", FB_WALL_LINK);
+//        request.putField("caption", FB_WALL_CAPTION);
+//        gdxFacebook.graph(request, new GDXFacebookCallback<JsonResult>() {
+//
+//            @Override
+//            public void onFail(Throwable t) {
+//                Gdx.app.error(TAG, "Exception occured while trying to post to user wall.");
+//                postToWallText.setText("EXCEPTION OCCURRED - view your log output");
+//                t.printStackTrace();
+//
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                Gdx.app.debug(TAG, "Post to user wall has been cancelled.");
+//                postToWallText.setText("POSTING HAS BEEN CANCELED");
+//            }
+//
+//            @Override
+//            public void onSuccess(JsonResult result) {
+//                Gdx.app.debug(TAG, "Posted to user wall successful.");
+//                Gdx.app.debug(TAG, "Response: " + result.getJsonValue().prettyPrint(JsonWriter.OutputType.json, 1));
+//                postToWallText.setText("CONGRATS - there is a new post on your wall.");
+//
+//            }
+//
+//            @Override
+//            public void onError(GDXFacebookError error) {
+//                Gdx.app.error(TAG, "An error occured while trying to post to user wall:" + error.getErrorMessage());
+//                postToWallText.setText("ERROR OCCURRED - view your log output");
+//
+//            }
+//
+//        });
 
     }
 
@@ -439,6 +472,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
             @Override
             public void onError(GDXFacebookError error) {
+                Gdx.app.error(TAG, error.getErrorMessage());
                 Gdx.app.error(TAG, "Graph Reqest: Error. Something went wrong with the access token.");
                 logout();
 
