@@ -3,10 +3,10 @@ package de.tomgrill.gdxfacebook.app;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import org.robovm.apple.foundation.NSAutoreleasePool;
-import org.robovm.apple.foundation.NSPropertyList;
 import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIApplicationLaunchOptions;
+import org.robovm.apple.uikit.UIApplicationOpenURLOptions;
 import org.robovm.pods.facebook.core.FBSDKAppEvents;
 import org.robovm.pods.facebook.core.FBSDKApplicationDelegate;
 
@@ -35,13 +35,14 @@ public class IOSLauncher extends IOSApplication.Delegate {
         FBSDKAppEvents.activateApp();
     }
 
+
     @Override
-    public boolean openURL(UIApplication application, NSURL url, String sourceApplication, NSPropertyList annotation) {
+    public boolean openURL(UIApplication app, NSURL url, UIApplicationOpenURLOptions options) {
         // You need to add this line, otherwise Facebook will not work
         // correctly!
-        return FBSDKApplicationDelegate.getSharedInstance().openURL(application, url, sourceApplication, null);
-    }
+        return FBSDKApplicationDelegate.getSharedInstance().openURL(app, url, options.getSourceApplication(), options.getAnnotation());
 
+    }
 
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
@@ -49,5 +50,4 @@ public class IOSLauncher extends IOSApplication.Delegate {
         FBSDKApplicationDelegate.getSharedInstance().didFinishLaunching(application, launchOptions);
         return finished;
     }
-
 }
