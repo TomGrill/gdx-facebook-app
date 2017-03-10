@@ -47,5 +47,9 @@
     <framework>OpenAL</framework>
     <framework>AudioToolbox</framework>
     <framework>AVFoundation</framework>
+    <framework>FBSDKCoreKit</framework>
   </frameworks>
+    <frameworkPaths>
+        <path>libs</path>
+    </frameworkPaths>
 </config>
