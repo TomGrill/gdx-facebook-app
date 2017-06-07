@@ -29,6 +29,11 @@
 		581773AB1E37A2DB004E28A9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581773A41E37A2DB004E28A9 /* OpenGLES.framework */; };
 		581773AC1E37A2DB004E28A9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581773A51E37A2DB004E28A9 /* QuartzCore.framework */; };
 		581773AE1E37A7EF004E28A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581773AD1E37A7EF004E28A9 /* UIKit.framework */; };
+		66448F16E1C618944DD3C599 /* moe-main-interfaces.m in Sources */ = {isa = PBXBuildFile; fileRef = C26D31B3FD86BDD7BB94AA20 /* moe-main-interfaces.m */; };
+		E2B21EB51EE7D8600021F689 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B21EB41EE7D8600021F689 /* Bolts.framework */; };
+		E2B21EB71EE7D8710021F689 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B21EB61EE7D8710021F689 /* FBSDKCoreKit.framework */; };
+		E2B21EB91EE7D8790021F689 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B21EB81EE7D8790021F689 /* FBSDKLoginKit.framework */; };
+		E2B21EBB1EE7D8860021F689 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B21EBA1EE7D8860021F689 /* FBSDKShareKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +64,11 @@
 		58C6F5241DA66CB600309CB6 /* my-gdx-game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "my-gdx-game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C6F5381DA66CB600309CB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8084D1F0A307440EC73CBFCA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C26D31B3FD86BDD7BB94AA20 /* moe-main-interfaces.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "moe-main-interfaces.m"; path = "../build/moe/main/ui-headers/moe-main-interfaces.m"; sourceTree = "<group>"; };
+		E2B21EB41EE7D8600021F689 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		E2B21EB61EE7D8710021F689 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		E2B21EB81EE7D8790021F689 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		E2B21EBA1EE7D8860021F689 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +88,11 @@
 				581773A81E37A2DB004E28A9 /* CoreGraphics.framework in Frameworks */,
 				581773A91E37A2DB004E28A9 /* CoreMotion.framework in Frameworks */,
 				581773AA1E37A2DB004E28A9 /* OpenAL.framework in Frameworks */,
+				E2B21EB71EE7D8710021F689 /* FBSDKCoreKit.framework in Frameworks */,
 				581773AB1E37A2DB004E28A9 /* OpenGLES.framework in Frameworks */,
+				E2B21EB51EE7D8600021F689 /* Bolts.framework in Frameworks */,
+				E2B21EBB1EE7D8860021F689 /* FBSDKShareKit.framework in Frameworks */,
+				E2B21EB91EE7D8790021F689 /* FBSDKLoginKit.framework in Frameworks */,
 				581773AC1E37A2DB004E28A9 /* QuartzCore.framework in Frameworks */,
 				581773AE1E37A7EF004E28A9 /* UIKit.framework in Frameworks */,
 			);
@@ -87,9 +101,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1BE9ABB00C41EF88316291B7 /* Multi-OS Engine */ = {
+			isa = PBXGroup;
+			children = (
+				C26D31B3FD86BDD7BB94AA20 /* moe-main-interfaces.m */,
+			);
+			name = "Multi-OS Engine";
+			sourceTree = "<group>";
+		};
 		5817739E1E37A2DA004E28A9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E2B21EBA1EE7D8860021F689 /* FBSDKShareKit.framework */,
+				E2B21EB81EE7D8790021F689 /* FBSDKLoginKit.framework */,
+				E2B21EB61EE7D8710021F689 /* FBSDKCoreKit.framework */,
+				E2B21EB41EE7D8600021F689 /* Bolts.framework */,
 				581773AD1E37A7EF004E28A9 /* UIKit.framework */,
 				5817739F1E37A2DB004E28A9 /* AudioToolbox.framework */,
 				581773A01E37A2DB004E28A9 /* AVFoundation.framework */,
@@ -126,6 +152,7 @@
 				5863B87C1DA682C800E46B6A /* ios-moe-Test */,
 				58C6F5251DA66CB600309CB6 /* Products */,
 				5817739E1E37A2DA004E28A9 /* Frameworks */,
+				1BE9ABB00C41EF88316291B7 /* Multi-OS Engine */,
 			);
 			sourceTree = "<group>";
 		};
@@ -317,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16479D2CDCAC394B9A9722FE /* main.cpp in Sources */,
+				66448F16E1C618944DD3C599 /* moe-main-interfaces.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,7 +379,7 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "de.tomgrill.gdxfacebook.app";
+				PRODUCT_BUNDLE_IDENTIFIER = de.tomgrill.gdxfacebook.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = "non-global";
 			};
@@ -385,7 +413,7 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "de.tomgrill.gdxfacebook.app";
+				PRODUCT_BUNDLE_IDENTIFIER = de.tomgrill.gdxfacebook.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = "non-global";
 			};
@@ -488,6 +516,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${MOE_FRAMEWORK_PATH}",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "ios-moe/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -508,8 +537,9 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 					"$(LIBGDX_NATIVES)",
+					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "de.tomgrill.gdxfacebook.app";
+				PRODUCT_BUNDLE_IDENTIFIER = de.tomgrill.gdxfacebook.app;
 				PRODUCT_NAME = "my-gdx-game";
 				STRIP_STYLE = "non-global";
 			};
@@ -524,6 +554,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"${MOE_FRAMEWORK_PATH}",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "ios-moe/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -544,8 +575,9 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 					"$(LIBGDX_NATIVES)",
+					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "de.tomgrill.gdxfacebook.app";
+				PRODUCT_BUNDLE_IDENTIFIER = de.tomgrill.gdxfacebook.app;
 				PRODUCT_NAME = "my-gdx-game";
 				STRIP_STYLE = "non-global";
 			};

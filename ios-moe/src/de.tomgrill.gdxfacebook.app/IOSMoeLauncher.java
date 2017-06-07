@@ -6,8 +6,9 @@ import apple.uikit.UIApplication;
 import apple.uikit.c.UIKit;
 import com.badlogic.gdx.backends.iosmoe.IOSApplication;
 import com.badlogic.gdx.backends.iosmoe.IOSApplicationConfiguration;
+import de.tomgrill.gdxfacebook.iosmoe.bindings.sdk.core.fbsdkcorekit.FBSDKAppEvents;
+import de.tomgrill.gdxfacebook.iosmoe.bindings.sdk.core.fbsdkcorekit.FBSDKApplicationDelegate;
 import org.moe.natj.general.Pointer;
-import org.robovm.pods.facebook.core.FBSDKAppEvents;
 
 
 public class IOSMoeLauncher extends IOSApplication.Delegate {
@@ -32,23 +33,22 @@ public class IOSMoeLauncher extends IOSApplication.Delegate {
 
     @Override
     public void applicationDidBecomeActive(UIApplication application) {
-        super.applicationDidBecomeActive(application);
 //        // You need to add this line, otherwise Facebook will not work
 //        // correctly!
         FBSDKAppEvents.activateApp();
+        super.applicationDidBecomeActive(application);
     }
 
     @Override
     public boolean applicationOpenURLOptions(UIApplication app, NSURL url, NSDictionary<String, ?> options) {
-        super.applicationOpenURLOptions(app, url, options);
-        throw new RuntimeException("IOSMOE not yet supported. This is not yet implemented properly."); // TODO
+        //return FBSDKApplicationDelegate.sharedInstance().
 //        return FBSDKApplicationDelegate.getSharedInstance().openURL(null, null, null,null );
+        return ((FBSDKApplicationDelegate)FBSDKApplicationDelegate.sharedInstance()).applicationOpenURLOptions(app, url, options);
     }
 
     @Override
-    public void applicationDidFinishLaunching(UIApplication application) {
-        super.applicationDidFinishLaunching(application);
-        throw new RuntimeException("IOSMOE not yet supported.  This is not yet implemented properly."); // TODO
-//        FBSDKApplicationDelegate.getSharedInstance().didFinishLaunching(null, null);
+    public boolean applicationDidFinishLaunchingWithOptions(UIApplication application, NSDictionary<?, ?> launchOptions) {
+        ((FBSDKApplicationDelegate) FBSDKApplicationDelegate.sharedInstance()).applicationDidFinishLaunchingWithOptions(application, launchOptions);
+        return super.applicationDidFinishLaunchingWithOptions(application, launchOptions);
     }
 }
