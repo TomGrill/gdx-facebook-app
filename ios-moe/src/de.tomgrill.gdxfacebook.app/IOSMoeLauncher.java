@@ -33,16 +33,12 @@ public class IOSMoeLauncher extends IOSApplication.Delegate {
 
     @Override
     public void applicationDidBecomeActive(UIApplication application) {
-//        // You need to add this line, otherwise Facebook will not work
-//        // correctly!
         FBSDKAppEvents.activateApp();
         super.applicationDidBecomeActive(application);
     }
 
     @Override
     public boolean applicationOpenURLOptions(UIApplication app, NSURL url, NSDictionary<String, ?> options) {
-        //return FBSDKApplicationDelegate.sharedInstance().
-//        return FBSDKApplicationDelegate.getSharedInstance().openURL(null, null, null,null );
         return ((FBSDKApplicationDelegate)FBSDKApplicationDelegate.sharedInstance()).applicationOpenURLOptions(app, url, options);
     }
 

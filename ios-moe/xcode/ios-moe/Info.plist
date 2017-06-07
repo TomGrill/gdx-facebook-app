@@ -79,7 +79,7 @@
     </array>
 
    <key>NSPhotoLibraryUsageDescription</key>
-     <string>Cause I can</string>
+   <string>Cause I can</string>
 
 </dict>
 </plist>
