@@ -3,11 +3,12 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://maven.google.com" }
         jcenter()
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.1'
         classpath 'org.multi-os-engine:moe-gradle:1.3.6'
     }
@@ -22,14 +23,14 @@ allprojects {
         appName = 'GDX Facebook Sample App'
         gdxVersion = '1.9.6'
 
-        gdxFacebookVersion = '1.4.0'
+        gdxFacebookVersion = '1.4.1'
 
         roboVMVersion = '2.3.1'
 
     }
 
     repositories {
-    	mavenLocal()
+        mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
@@ -44,9 +45,9 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        
+
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        
+
         compile "de.tomgrill.gdxfacebook:gdx-facebook-desktop:$gdxFacebookVersion"
     }
 }
@@ -62,26 +63,29 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        
+
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
-        
-        
-        compile ("de.tomgrill.gdxfacebook:gdx-facebook-android:$gdxFacebookVersion") 
-        
+
+
+        compile("de.tomgrill.gdxfacebook:gdx-facebook-android:$gdxFacebookVersion")
+
+        // only required for FragmentActivity setup
+//        compile "com.android.support:support-core-utils:25.3.1"
+
         compile fileTree(dir: 'libs', include: '*.jar')
     }
-    
-    
+
+
 }
 
 project(":ios") {
     apply plugin: "java"
     apply plugin: "robovm"
 
-    
+
 
     dependencies {
         compile project(":core")
@@ -89,12 +93,11 @@ project(":ios") {
         compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        
+
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
-        
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"      
-       
-        
+
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:$gdxFacebookVersion"
+
 //    	compile fileTree(dir: 'libs', include: '*.jar')
     }
 }
@@ -123,7 +126,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        
+
         compile "de.tomgrill.gdxfacebook:gdx-facebook-html:$gdxFacebookVersion:sources"
         compile "de.tomgrill.gdxfacebook:gdx-facebook-core:$gdxFacebookVersion:sources"
 
@@ -137,9 +140,9 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
+
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        
+
         compile "de.tomgrill.gdxfacebook:gdx-facebook-core:$gdxFacebookVersion"
     }
 }
