@@ -96,7 +96,7 @@ public class GdxFacebookSampleApp extends ApplicationAdapter {
 
         permissionsRead.add("email");
         permissionsRead.add("public_profile");
-        permissionsRead.add("user_friends");
+//        permissionsRead.add("user_friends"); // requires reviewed app by Facebook
 
         permissionsPublish.add("publish_actions");
 
